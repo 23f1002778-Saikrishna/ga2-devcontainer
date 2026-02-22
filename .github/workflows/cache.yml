@@ -1,0 +1,26 @@
+name: Cache Dependencies
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        id: cache-deps
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: cache-2d52fcd
+
+      - name: prime-cache-2d52fcd
+        run: echo "Cache hit: ${{ steps.cache-deps.outputs.cache-hit }}"
+
+      - name: Install dependencies
+        run: pip install fastapi
